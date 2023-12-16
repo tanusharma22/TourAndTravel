@@ -1,18 +1,7 @@
 const express=require('express')
-const Category= require("../model/category.model")
 const router= express.Router();
+const categoryHandler=require('../controllers/categoryController')
 router.route("/")
-    .get(async(req,res)=>{
-        try{
-            const categories=await Category.find({});
-            res.json(categories)
-
-        }
-        catch(err)
-        {
-            res.json({ message: "Could not find categories to DB"})
-    
-        }
-    })
+    .get(categoryHandler)
 
     module.exports=router;

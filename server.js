@@ -9,15 +9,18 @@ const wishlistRouter=require('./routes/wishlist.router')
 const mongoose= require('mongoose')
 const app = express()
 const dotenv= require('dotenv');
+const cors=required('cors');
 dotenv.config();
 const connectDB= require("./config/dbconfig")
 app.use(express.json());
+app.use(cors());
 connectDB();
 const PORT =3500
 // respond with "hello world" when a GET request is made to the homepage
 app.get("/", (req, res) => {
   res.send('hello world')
 })
+
 app.use("/api/hoteldata",hotelDataAddedToRouter);
 app.use("/api/categorydata",categoryDataAddedToRouter);
 app.use("/api/category",categoryrouter)

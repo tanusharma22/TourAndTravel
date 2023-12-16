@@ -1,23 +1,14 @@
 const express=require('express')
 const router= express.Router();
 const wishlist =require('../model/wishlist.model')
+const verifyuser=require('../middleware/verifyuser')
+const wishlistHandler= require('../controllers/wishlistController')
 
 router.route("/")
-    .post(async (req,res)=>{
-        const newWishlist= new  wishlist(req.body);
-        try{
-            const savedWishlist=await newWishlist.save();
-            res.status(201).json(savedWishlist);
-
-        }
-        catch(err){
-            console.log(err)
-            res.status(500).json({message:"failed to create wishlist"})
-        }
-    })
+    .post(verifyuser,wishlistHandler)
 
     router.route("/:id")
-        .delete(async (req,res) =>{
+        .delete(verifyuser,async (req,res) =>{
             try{
                 await wishlist.findByIdAndDelete(req.params.id);
                 res.json({ message: "Hotel Deleted From Wishlist"})
@@ -29,7 +20,7 @@ router.route("/")
     module.exports=router;
 
     router.route("/")
-        .get(
+        .get(verifyuser,
             async (req, res) => {
                 try{
                     const Wishlist = await wishlist.find({});
